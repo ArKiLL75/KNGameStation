@@ -2,12 +2,12 @@
 $Version = "0.9.2",
 $AppName = "KN-GameStation $Version"
 )
-
+    $AppName  |set-content c:\temp\v3.txt
 ##################
 
 function Box_MenuEmuls {
 param(
-$Path = "C:\Users\ArKiLL\Documents\Powershell\Scripts\GameStation_v2\EMULS" # $PSScriptRoot + "\EMULS",
+$Path = "$(Get-Location)\EMULS"
 )
 $form = New-Object System.Windows.Forms.Form
 $form.Text = $AppName
