@@ -1,4 +1,4 @@
-﻿param(
+param(
 $VersionLauncher = "0.3",
 $LauncherName = "KN-GameStation Launcher - $VersionLauncher",
 $ScriptName = "KNGameStation",
@@ -55,16 +55,17 @@ $r = $(Invoke-WebRequest -Uri $($repositoryroot + "/" + $repositoryfolder) -UseB
                                                                                                      $_.title -like "*launcher*"} |Sort title -Descending |Select -First 1
 If($r.Title.split("_")[2].Replace(".ps1","") -gt $VersionLauncher)
     {
-    $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Status" -Value "$($r.title): Version $(($r.Title.split("_")[2]).Replace('.ps1','')) available (Installed: $VersionLauncher)."
+    $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Status" -Value "$(($PSCommandPath).split("\")[-1]): Version $(($r.Title.split("_")[2]).Replace('.ps1','')) available."
     $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Color" -Value "BLUE"
     $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Font" -Value $([System.Drawing.Font]::new("Microsoft Sans Serif", 8.5, [System.Drawing.FontStyle]::Bold))
     $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Button" -Value $True
     $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Title" -Value $($r.title)
     $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Link" -Value "https://raw.githubusercontent.com/ArKiLL75/$ScriptName/master/$($UpdateCheck.Title)"
-    $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Script" -Value $ScriptLauncherName
+    $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Script" -Value $UpdateCheck.Title
     Return $UpdateCheck
     }
-ElseIf(
+Else{
+    If(
         $r = $(Invoke-WebRequest -Uri $($repositoryroot + "/" + $repositoryfolder) -UseBasicParsing).Links |?{$_.title -match ".ps1" -AND`
                                                                                                      $_.title -like "$ScriptName*" -AND`
                                                                                                      $_.title -notmatch "Launcher"} |Sort title -Descending |Select -First 1
@@ -72,15 +73,22 @@ ElseIf(
       {
       If($r.Title.split("_")[1].Replace(".ps1","") -gt $Version)
         {
-        $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Status" -Value "$($r.title): Version $(($r.Title.split("_")[1]).Replace('.ps1','')) available (Installed: $Version)."
+        $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Status" -Value "$($Script.Name): Version $(($r.Title.split("_")[1]).Replace('.ps1','')) available."
         $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Color" -Value "BLUE"
         $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Font" -Value $([System.Drawing.Font]::new("Microsoft Sans Serif", 8.5, [System.Drawing.FontStyle]::Bold))
         $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Button" -Value $True
         $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Title" -Value $($r.title)
         $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Link" -Value "https://raw.githubusercontent.com/ArKiLL75/$ScriptName/master/$($UpdateCheck.Title)"
-        $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Script" -Value $ScriptLauncherName
+        $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Script" -Value $(($PSCommandPath).split("\")[-1])
         Return $UpdateCheck
         }
+      Else{
+        $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Status" -Value "No Updates available."
+        $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Color" -Value "BLACK"
+        $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Button" -Value $False
+        Return $UpdateCheck
+      }
+      }
     Else{
         $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Status" -Value "No Updates available."
         $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Color" -Value "BLACK"
@@ -88,15 +96,7 @@ ElseIf(
         Return $UpdateCheck
         }
       }
-### Script
 
-#$UpdateCheck = New-Object psobject
-
-Else{$UpdateCheck |Add-Member -MemberType NoteProperty -Name "Status" -Value "No Updates available."
-    $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Color" -Value "BLACK"
-    $UpdateCheck |Add-Member -MemberType NoteProperty -Name "Button" -Value $False
-    Return $UpdateCheck
-    }
 #$UpdateCheck
 }
 
@@ -133,7 +133,7 @@ $UpdateLinkButton.Enabled = $UpdateCheck.Button
 $UpdateLinkButton.Add_Click({$(
                             Invoke-WebRequest -Uri $UpdateCheck.Link -OutFile .\$($UpdateCheck.Title)
                             Start-Process Powershell.exe $UpdateCheck.Script
-                            ClearAndClose
+                            #ClearAndClose
                             )})
 $form.Controls.Add($UpdateLinkButton)
 
@@ -144,8 +144,8 @@ $label.Text = ""
 $form.Controls.Add($label)
 
 $label2 = New-Object System.Windows.Forms.Label
-$label2.Location = New-Object System.Drawing.Point(70,20)
-$label2.Size = New-Object System.Drawing.Size(280,20)
+$label2.Location = New-Object System.Drawing.Point(70,10)
+$label2.Size = New-Object System.Drawing.Size(230,40)
 $label2.Text = $UpdateCheck.Status #$BoxText
 $label2.ForeColor = $UpdateCheck.Color
 $label2.Font = $UpdateCheck.Font
