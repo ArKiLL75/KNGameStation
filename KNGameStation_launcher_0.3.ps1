@@ -134,8 +134,8 @@ $UpdateLinkButton.Add_Click({$(
                             Invoke-WebRequest -Uri $UpdateCheck.Link -OutFile .\$($UpdateCheck.Title)
                             Sleep 1
                             #Start-Process Powershell.exe - $UpdateCheck.Title -ExecutionPolicy Bypass
-                            $LastLauncherScript = Get-ChildItem |? {$_.Name -like $($ScriptName + "_" + "*" + ".ps1") -AND $_.Name -match "Launcher"} |Sort Name -Descending |Select -First 1
-                            Start-Process -FilePath "powershell.exe" -ArgumentList "-File $($LastLauncherScript.Name) -ExecutionPolicy Bypass"
+                            #$LastLauncherScript = 
+                            Start-Process -FilePath "powershell.exe" -ArgumentList "-File $($(Get-ChildItem |? {$_.Name -like $($ScriptName + "_" + "*" + ".ps1") -AND $_.Name -match "Launcher"} |Sort Name -Descending |Select -First 1).Name) -ExecutionPolicy Bypass"
                             ClearAndClose
                             )})
 $form.Controls.Add($UpdateLinkButton)
