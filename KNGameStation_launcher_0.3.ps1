@@ -1,4 +1,4 @@
-﻿param(
+param(
 $VersionLauncher = "0.2",
 $LauncherName = "KN-GameStation Launcher - $VersionLauncher",
 $ScriptName = "KNGameStation",
@@ -132,7 +132,7 @@ $UpdateLinkButton.Text = 'Update'
 $UpdateLinkButton.Enabled = $UpdateCheck.Button
 $UpdateLinkButton.Add_Click({$(
                             Invoke-WebRequest -Uri $UpdateCheck.Link -OutFile .\$($UpdateCheck.Title)
-                            Sleep 1
+                            Sleep 2
                             #Start-Process Powershell.exe - $UpdateCheck.Title -ExecutionPolicy Bypass
                             $(Get-ChildItem |? {$_.Name -like $($ScriptName + "_" + "*" + ".ps1") -AND $_.Name -match "Launcher"} |Sort Name -Descending |Select -First 1).Name
                             Start-Process -FilePath "powershell.exe" -ArgumentList "-File $($(Get-ChildItem |? {$_.Name -like $($ScriptName + "_" + "*" + ".ps1") -AND $_.Name -match "Launcher"} |Sort Name -Descending |Select -First 1).Name) -ExecutionPolicy Bypass"
