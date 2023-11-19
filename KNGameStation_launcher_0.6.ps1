@@ -1,6 +1,6 @@
 param(
 $VersionLauncher = "0.6",
-$LauncherName = "KN-GameStation Launcher - $VersionLauncher",
+$LauncherName = "KN-GameStation Launcher2 - $VersionLauncher",
 $ScriptName = "KNGameStation",
 $repositoryroot = "https://github.com",
 $repositoryDLroot = "https://raw.githubusercontent.com",
