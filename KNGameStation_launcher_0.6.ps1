@@ -167,7 +167,8 @@ $UpdateLinkButton.Add_Click({$(
                                 }
                                 
                             $(Get-ChildItem |? {$_.Name -like $($ScriptName + "_" + "*" + ".ps1") -AND $_.Name -match "Launcher"} |Sort Name -Descending |Select -First 1).Name
-                            Start-Process -FilePath "powershell.exe" -ArgumentList "-File $($(Get-ChildItem |? {$_.Name -like $($ScriptName + "_" + "*" + ".ps1") -AND $_.Name -match "Launcher"} |Sort Name -Descending |Select -First 1).Name) -ExecutionPolicy Bypass"
+                            #Start-Process -FilePath "powershell.exe" -ArgumentList "-File $($(Get-ChildItem |? {$_.Name -like $($ScriptName + "_" + "*" + ".ps1") -AND $_.Name -match "Launcher"} |Sort Name -Descending |Select -First 1).Name) -ExecutionPolicy Bypass"
+                            Start-Process -FilePath "$(Split-Path $PSScriptRoot)\KNGameStation.bat"
                             ClearAndClose
                             )})
 $form.Controls.Add($UpdateLinkButton)
