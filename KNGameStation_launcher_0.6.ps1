@@ -1,6 +1,6 @@
 param(
 $VersionLauncher = "0.6",
-$LauncherName = "KN-GameStation Launcher2 - $VersionLauncher",
+$LauncherName = "KN-GameStation Launcher - $VersionLauncher",
 $ScriptName = "KNGameStation",
 $repositoryroot = "https://github.com",
 $repositoryDLroot = "https://raw.githubusercontent.com",
@@ -166,7 +166,7 @@ $UpdateLinkButton.Add_Click({$(
                                 Sleep 1
                                 }
                                 
-                            $(Get-ChildItem |? {$_.Name -like $($ScriptName + "_" + "*" + ".ps1") -AND $_.Name -match "Launcher"} |Sort Name -Descending |Select -First 1).Name
+                            #$(Get-ChildItem |? {$_.Name -like $($ScriptName + "_" + "*" + ".ps1") -AND $_.Name -match "Launcher"} |Sort Name -Descending |Select -First 1).Name
                             #Start-Process -FilePath "powershell.exe" -ArgumentList "-File $($(Get-ChildItem |? {$_.Name -like $($ScriptName + "_" + "*" + ".ps1") -AND $_.Name -match "Launcher"} |Sort Name -Descending |Select -First 1).Name) -ExecutionPolicy Bypass"
                             Start-Process -FilePath "$(Split-Path $PSScriptRoot)\KNGameStation.bat"
                             ClearAndClose
