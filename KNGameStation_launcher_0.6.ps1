@@ -1,5 +1,5 @@
 param(
-$VersionLauncher = "0.5",
+$VersionLauncher = "0.6",
 $LauncherName = "KN-GameStation Launcher - $VersionLauncher",
 $ScriptName = "KNGameStation",
 $repositoryroot = "https://github.com",
@@ -153,7 +153,8 @@ $UpdateLinkButton.Add_Click({$(
 
                             ### Download Frogger
 
-                            If(!$(Get-Item $((Split-Path $PSScriptRoot) + "\Stations\ATA-2600\ROMS\Frogger (1982).zip") -ErrorAction SilentlyContinue) -AND`                                $UpdateCheck.Title.split("_")[1].Replace(".ps1","") -ge "0.9.7")
+                            If(!$(Get-Item $((Split-Path $PSScriptRoot) + "\Stations\ATA-2600\ROMS\Frogger (1982).zip") -ErrorAction SilentlyContinue) -AND`
+                                $UpdateCheck.Title.split("_")[1].Replace(".ps1","") -ge "0.9.7")
                                 {
                                 "no"
                                 $FroggerRemotePath = $(Invoke-WebRequest -Uri $($repositoryroot + "/" + $repositoryfolder) -UseBasicParsing).Links |?{$_.title -eq "Frogger (1982).zip" -OR`
